@@ -19,7 +19,10 @@ jobs:
     needs: [getazcli]
     steps:
       - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Deploy Infrastructure
         run: echo "Deploy Bicep"
+      - name: Download Azure CLI Artifact
+        run: echo "Download"
+      - name: Deploy FunctionApp
+        run: echo "Deploy Bicep"
+        
