@@ -6,6 +6,7 @@ on:
 jobs:
   getazcli:
     runs-on: windows-2022
+    needs: [deployInfra]
     steps:
       - name: Check Azure CLI version
         run: az --version
@@ -13,16 +14,24 @@ jobs:
         run: Compress-Archive "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2" c:\AZCLI.zip
       - name: Verify zip
         run: test-path c:\AZCLI.zip
+      - name: Optionally store as an artifact
+        if: false
+        run: echo "This could take a lot of space, better to upload directly to storage"
+      - name: Copy file to storage
+        if: false
+        run: azcopy --version
         
-  deploy:
+  deployInfra:
     runs-on: ubuntu-latest
-    needs: [getazcli]
     steps:
       - uses: actions/checkout@v3
       - name: Deploy Infrastructure
         run: echo "Deploy Bicep"
-      - name: Download Azure CLI Artifact
-        run: echo "Download"
-      - name: Deploy FunctionApp
+        
+  deployAppCode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy Function App code
         run: echo "Deploy Bicep"
         
