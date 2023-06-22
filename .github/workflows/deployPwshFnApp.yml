@@ -9,6 +9,10 @@ jobs:
     steps:
       - name: Check Azure CLI version
         run: az --version
+      - name: Zip Azure CLI directory
+        run: Compress-Archive "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2" c:\AZCLI.zip
+      - name: Verify zip
+        run: test-path c:\AZCLI.zip
         
   deploy:
     runs-on: ubuntu-latest
