@@ -11,6 +11,8 @@ jobs:
   getazcli:
     runs-on: windows-2022
     needs: [deployInfra]
+    env:
+      STORAGENAME: ${{ needs.Validation.outputs.STORAGENAME }}
     steps:
       - name: Check Azure CLI version
         run: az --version
@@ -22,8 +24,9 @@ jobs:
         if: false
         run: echo "This could take a lot of space, better to upload directly to storage"
       - name: Copy file to storage
-        if: false
-        run: azcopy --version
+        run: |
+          echo $STORAGENAME
+          azcopy --version
         
   deployInfra:
     runs-on: ubuntu-latest
@@ -72,9 +75,9 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: Deploy to FunctionApp
         env: 
-          functionAppName: ${{ needs.deployInfra.outputs.FNAPPNAME }}
+          FNAPPNAME: ${{ needs.deployInfra.outputs.FNAPPNAME }}
         run: |
-          echo "Deploying code to $functionAppName"
+          echo "Deploying code to $FNAPPNAME"
           cd src/app
-          func azure functionapp publish $functionAppName
+          func azure functionapp publish $FNAPPNAME
         
