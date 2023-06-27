@@ -38,7 +38,9 @@ jobs:
       - name: Deploy Infrastructure
         run: |
           DEP=$(az deployment group create -g ${{ vars.RG }} -f infra/main.bicep -p environmentName=anenv)
-          echo $DEP | jq -r '.properties.outputs | with_entries( .key |= ascii_downcase)'
+          OUTPUTS=$(echo $DEP | jq -r '.properties.outputs | with_entries( .key |= ascii_downcase)')
+          echo $OUTPUTS
+          echo $OUTPUTS | jq -r '.service_api_name.value'
       - name: Capture outpits
         run: echo fnAppName, StorageAccountName,
   deployAppCode:
