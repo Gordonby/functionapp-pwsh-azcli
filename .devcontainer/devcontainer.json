@@ -17,15 +17,16 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "GitHub.vscode-github-actions",
-                "ms-azuretools.azure-dev",
-                "ms-azuretools.vscode-azurefunctions",
-                "ms-azuretools.vscode-bicep",
-                "ms-azuretools.vscode-docker",
-                "ms-dotnettools.csharp",
-                "ms-dotnettools.vscode-dotnet-runtime",
-                "ms-vscode.vscode-node-azure-pack"
-            ]
+				"GitHub.vscode-github-actions",
+				"ms-azuretools.azure-dev",
+				"ms-azuretools.vscode-azurefunctions",
+				"ms-azuretools.vscode-bicep",
+				"ms-azuretools.vscode-docker",
+				"ms-dotnettools.csharp",
+				"ms-dotnettools.vscode-dotnet-runtime",
+				"ms-vscode.vscode-node-azure-pack",
+				"ms-vscode.powershell"
+			]
         }
     },
     "forwardPorts": [

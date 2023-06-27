@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
-name: todo-csharp-sql-swa-func
+name: pwsh-azcli-func
 metadata:
-  template: todo-csharp-sql-swa-func@0.0.1-beta
+  template: pwsh-azcli-func@0.0.1-beta
 services:
   app:
     project: ./src/app
