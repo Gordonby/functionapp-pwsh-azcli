@@ -36,7 +36,9 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: Deploy Infrastructure
-        run: az deployment group create -g ${{ vars.RG }} -f infra/main.bicep -p environmentName=anenv
+        run: |
+          DEP=$(az deployment group create -g ${{ vars.RG }} -f infra/main.bicep -p environmentName=anenv)
+          echo $DEP | jq -r '.properties.outputs | with_entries( .key |= ascii_downcase)'
       - name: Capture outpits
         run: echo fnAppName, StorageAccountName,
   deployAppCode:
