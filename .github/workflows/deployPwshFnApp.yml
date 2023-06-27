@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-2022
     needs: [deployInfra]
     env:
-      STORAGENAME: ${{ needs.Validation.outputs.STORAGENAME }}
+      STORAGENAME: ${{ needs.deployInfra.outputs.STORAGENAME }}
     steps:
       - name: Check Azure CLI version
         run: az --version
