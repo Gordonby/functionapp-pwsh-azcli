@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy Infrastructure
-        run: echo "Deploy Bicep"
+        run: az deployment group create -g innerloop -f infra/main.bicep -p environmentName=anenv
         
   deployAppCode:
     runs-on: ubuntu-latest

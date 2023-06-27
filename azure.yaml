@@ -6,5 +6,5 @@ metadata:
 services:
   app:
     project: ./src/app
-    language: powershell
+    #language: pwsh
     host: function

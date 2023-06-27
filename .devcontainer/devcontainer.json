@@ -12,7 +12,8 @@
         "ghcr.io/devcontainers/features/node:1": {
             "version": "16",
             "nodeGypDependencies": false
-        }
+        },
+        "ghcr.io/devcontainers/features/azure-cli": "latest"
     },
     "customizations": {
         "vscode": {
