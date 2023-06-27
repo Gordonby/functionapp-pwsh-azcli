@@ -53,9 +53,9 @@ jobs:
           STORAGENAME=$(echo $OUTPUTS | jq -r '.storage_account_name.value')
           echo "STORAGENAME=$STORAGENAME" >> $GITHUB_OUTPUT
           
-          echo '### Infra Created 🚀' >> $GITHUB_STEP_SUMMARY
-          echo 'Fn App: $FNAPPNAME' >> $GITHUB_STEP_SUMMARY
-          echo 'Storage Account: $STORAGENAME' >> $GITHUB_STEP_SUMMARY
+          echo "### Infra Created 🚀" >> $GITHUB_STEP_SUMMARY
+          echo "Fn App: $FNAPPNAME" >> $GITHUB_STEP_SUMMARY
+          echo "Storage Account: $STORAGENAME" >> $GITHUB_STEP_SUMMARY
     
   deployAppCode:
     runs-on: ubuntu-latest
