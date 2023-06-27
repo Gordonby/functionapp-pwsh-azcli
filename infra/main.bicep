@@ -88,4 +88,6 @@ output APPLICATIONINSIGHTS_CONNECTION_STRING string = monitoring.outputs.applica
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
 output REACT_APP_APPLICATIONINSIGHTS_CONNECTION_STRING string = monitoring.outputs.applicationInsightsConnectionString
+output SERVICE_API_NAME string = app.outputs.SERVICE_API_NAME
 output SERVICE_API_ENDPOINTS array = [app.outputs.SERVICE_API_URI]
+output STORAGE_ACCOUNT_NAME string = storage.outputs.name
