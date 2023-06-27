@@ -46,6 +46,13 @@ jobs:
     needs: [deployInfra]
     steps:
       - uses: actions/checkout@v3
+      - name: Install Functions core tools
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+          sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
+          sudo apt-get update
+          sudo apt-get install azure-functions-core-tools-4
       - name: Zip up app code
         run: zip -r fnAppCode.zip ./src/app/
       - name: Az CLI login
@@ -55,5 +62,9 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: Deploy Zip file
-        run: az webapp deploy -g ${{ vars.RG }} --name func--azcliappv27haqboknqpw --src-path fnAppCode.zip
+        env: 
+          functionAppName: func-azcliappilfvus4hrhwoo
+        run: |
+          cd src/app
+          func azure functionapp publish $functionAppName
         
