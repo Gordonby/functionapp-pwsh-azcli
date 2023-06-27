@@ -2,7 +2,11 @@ name: Deploy Azure CLI Pwsh FunctionApp
 
 on:
   workflow_dispatch:
-
+  
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
   getazcli:
     runs-on: windows-2022
