@@ -36,7 +36,7 @@ var tags = { 'azd-env-name': environmentName }
 module app './app/app.bicep' = {
   name: 'app'
   params: {
-    name: !empty(apiServiceName) ? apiServiceName : '${abbrs.webSitesFunctions}-${nameseed}${uniqueSuffix}'
+    name: !empty(apiServiceName) ? apiServiceName : '${abbrs.webSitesFunctions}${nameseed}${uniqueSuffix}'
     location: location
     tags: tags
     applicationInsightsName: monitoring.outputs.applicationInsightsName
