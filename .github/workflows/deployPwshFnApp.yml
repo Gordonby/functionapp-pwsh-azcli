@@ -13,6 +13,7 @@ jobs:
     needs: [deployInfra]
     env:
       STORAGENAME: ${{ needs.deployInfra.outputs.STORAGENAME }}
+      FNAPPNAME: ${{ needs.deployInfra.outputs.FNAPPNAME }}
     steps:
       - name: Check Azure CLI version
         run: az --version
@@ -20,14 +21,26 @@ jobs:
         run: Compress-Archive "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2" c:\AZCLI.zip
       - name: Verify zip
         run: test-path c:\AZCLI.zip
-      - name: Optionally store as an artifact
-        if: false
-        run: echo "This could take a lot of space, better to upload directly to storage"
-      - name: Copy file to storage
+      - name: Copy zip file to storage
         run: |
           echo $STORAGENAME
           azcopy --version
-        
+      - name: Send unzip command to kudu scm
+        if: false #wip
+        run: |
+          $Username=""
+          $Password=""
+          $token = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$($Username):$($Password)"))
+          $url= "https://$env:FNAPPNAME.scm.azurewebsites.net/api/command"
+          Invoke-RestMethod $url `
+            -Headers @{ 'Authorization' = "Basic $Token"; 'If-Match' = '*' } `
+            -Method 'POST' `
+            -Body (ConvertTo-Json @{ command = 'dir'; dir = '' }) `
+            -UserAgent 'powershell/1.0' `
+            -ContentType 'application/json'
+            
+          $Username=""
+          $Password=""
   deployInfra:
     runs-on: ubuntu-latest
     outputs:
