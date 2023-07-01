@@ -8,6 +8,7 @@ param appServicePlanId string
 param keyVaultName string = ''
 param managedIdentity bool = !empty(keyVaultName)
 param storageAccountName string
+param storageContentShare string = ''
 
 // Runtime Properties
 @allowed([
@@ -40,6 +41,8 @@ param numberOfWorkers int = -1
 param scmDoBuildDuringDeployment bool = true
 param use32BitWorkerProcess bool = false
 
+var storageConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
+
 module functions 'appservice.bicep' = {
   name: '${name}-functions'
   params: {
@@ -52,10 +55,15 @@ module functions 'appservice.bicep' = {
     applicationInsightsName: applicationInsightsName
     appServicePlanId: appServicePlanId
     appSettings: union(appSettings, {
-        AzureWebJobsStorage: 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
+        AzureWebJobsStorage: storageConnectionString
         FUNCTIONS_EXTENSION_VERSION: extensionVersion
         FUNCTIONS_WORKER_RUNTIME: runtimeName
-      })
+      },
+      !empty(storageContentShare) ? {
+        WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: storageConnectionString
+        WEBSITE_CONTENTSHARE: storageContentShare
+      } : {}
+    )
     clientAffinityEnabled: clientAffinityEnabled
     enableOryxBuild: enableOryxBuild
     functionAppScaleLimit: functionAppScaleLimit

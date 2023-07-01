@@ -43,11 +43,10 @@ module app './app/app.bicep' = {
     appServicePlanId: appServicePlan.outputs.id
     keyVaultName: ''
     storageAccountName: storage.outputs.name
+    storageContentShare: nameseed
     appSettings: {
       APPINSIGHTS_INSTRUMENTATIONKEY: monitoring.outputs.applicationInsightsInstrumentationKey
       APPLICATIONINSIGHTS_CONNECTION_STRING: monitoring.outputs.applicationInsightsConnectionString
-      WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: 'DefaultEndpointsProtocol=https;AccountName=${storage.outputs.name};AccountKey=${listkeys(subscriptionResourceId(resourceGroup().id, storageAccountName),'2022-05-01')};EndpointSuffix=${environment().suffixes.storage}'
-      WEBSITE_CONTENTSHARE: nameseed
     }
   }
 }
@@ -67,11 +66,10 @@ module appServicePlan './core/host/appserviceplan.bicep' = {
 }
 
 // Backing storage for Azure functions backend API
-var storageAccountName = !empty(storageAccountName) ? storageAccountName : '${abbrs.storageStorageAccounts}${nameseed}${uniqueSuffix}'
 module storage './core/storage/storage-account.bicep' = {
   name: 'storage'
   params: {
-    name: storageAccountName
+    name: !empty(storageAccountName) ? storageAccountName : '${abbrs.storageStorageAccounts}${nameseed}${uniqueSuffix}'
     location: location
     tags: tags
     shares: [nameseed]

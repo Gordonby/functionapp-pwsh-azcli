@@ -63,7 +63,7 @@ resource storage 'Microsoft.Storage/storageAccounts@2022-05-01' = {
       shareDeleteRetentionPolicy: deleteRetentionPolicy
     }
     resource container 'shares' = [for share in shares: {
-      name: share.name
+      name: share
       properties: {}
     }]
   }

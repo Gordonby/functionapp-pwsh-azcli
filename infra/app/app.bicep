@@ -9,6 +9,7 @@ param appSettings object = {}
 param keyVaultName string
 param serviceName string = 'api'
 param storageAccountName string
+param storageContentShare string = ''
 
 module api '../core/host/functions.bicep' = {
   name: '${serviceName}-functions-dotnet-isolated-module'
@@ -25,6 +26,7 @@ module api '../core/host/functions.bicep' = {
     runtimeName: 'powershell'
     runtimeVersion: '6.0'
     storageAccountName: storageAccountName
+    storageContentShare: storageContentShare
     scmDoBuildDuringDeployment: false
   }
 }
