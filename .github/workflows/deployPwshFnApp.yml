@@ -17,14 +17,22 @@ jobs:
     steps:
       - name: Check Azure CLI version
         run: az --version
+        
       - name: Zip Azure CLI directory
         run: Compress-Archive "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2" c:\AZCLI.zip
-      - name: Verify zip
+      
+      - name: Verify zip generation
         run: test-path c:\AZCLI.zip
+     
       - name: Copy zip file to storage
         run: |
           echo $STORAGENAME
           azcopy --version
+      
+      - name: Get Web App Publish credentials 
+        run: |
+          az webapp deployment list-publishing-profiles -n $env:FNAPPNAME -g ${{ vars.RG }} --query "[?publishMethod == 'MSDeploy'].{userName:userName,userPWD:userPWD,publishUrl:publishUrl}"
+          
       - name: Send unzip command to kudu scm
         if: false #wip
         run: |
